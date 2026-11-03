@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Agustin Fernandez Rolon — Desarrollador web</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Fira+Code:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ffffff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+a{color:#141414;text-decoration:none}
+a:hover{color:#DF1F2B}
+::selection{background:#DF1F2B;color:#ffffff}
+.disp{font-family:'Archivo',sans-serif}
+.cursor{display:inline-block;width:.6em;height:1.1em;background:#DF1F2B;vertical-align:-0.2em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.marquee{display:flex;width:max-content;animation:mq 30s linear infinite}
+.marquee.rev{animation-direction:reverse;animation-duration:36s}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* entrance */
+.rise{animation:rise 1s cubic-bezier(.2,.8,.2,1) both}
+.d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.31s}.d4{animation-delay:.5s}.d5{animation-delay:.7s}
+@keyframes rise{from{opacity:0;transform:translateY(60px) skewY(4deg)}to{opacity:1;transform:none}}
+@keyframes rowin{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes rowin2{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+
+/* scroll-linked (vars set from script) */
+.h1l{translate:calc(var(--p,0) * -16vw) 0}
+.h2l{translate:calc(var(--p,0) * 12vw) 0}
+.h3l{translate:calc(var(--p,0) * -6vw) 0}
+.hpx{translate:0 calc(var(--p,0) * -70px)}
+.hrot{rotate:calc(var(--p,0) * -90deg)}
+.bar{width:calc(var(--sp,0) * 100%)}
+
+/* reveal on scroll */
+@supports (animation-timeline: view()) {
+.rv{animation:rvIn linear both;animation-timeline:view();animation-range:entry 0% entry 90%}
+.rvx{animation:rvX linear both;animation-timeline:view();animation-range:entry 10% cover 35%}
+.mw{animation:mwIn linear both;animation-timeline:view();animation-range:entry 20% cover 40%}
+}
+@keyframes rvIn{from{opacity:0;translate:0 48px}to{opacity:1;translate:0 0}}
+@keyframes rvX{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes mwIn{from{opacity:.12}to{opacity:1}}
+
+/* break the grid */
+.brk{transition:transform .6s cubic-bezier(.7,0,.2,1)}
+.broken .b1{transform:translate(4vw,0) rotate(-2deg)}
+.broken .b2{transform:translate(-3vw,1.2vw) rotate(1.5deg)}
+.broken .b3{transform:translate(9vw,-1vw)}
+.broken .b5{transform:translate(0,3vw) skewX(-12deg)}
+.broken .b6{transform:rotate(-6deg) translate(-1vw,1vw)}
+.broken .b7{transform:rotate(3deg) translateY(-12px)}
+.broken .b8{transform:rotate(-4deg) translateX(20px)}
+.broken .hl{transform:scaleX(1.35) translateX(10%)}
+
+/* hover states */
+.row{transition:background .25s,color .25s}
+.tile{transition:transform .2s,box-shadow .2s}
+.tile:hover{transform:translate(-4px,-4px);box-shadow:4px 4px 0 #141414}
+.pill{transition:background .3s,color .3s,transform .3s}
+.pill:hover{transform:translateY(-6px)}
+.chip:hover{background:#141414;color:#ffffff}
+.cmd:hover{background:#DF1F2B;color:#ffffff;border-color:#DF1F2B}
+.nl{position:relative}
+.nl::after{content:"";position:absolute;left:0;right:100%;bottom:-4px;height:2px;background:#DF1F2B;transition:right .3s}
+.nl:hover::after{right:0}
+.vert{writing-mode:vertical-rl;transform:rotate(180deg)}
+.gridbg{background-image:linear-gradient(to right,rgba(20,20,20,.055) 1px,transparent 1px),linear-gradient(to bottom,rgba(20,20,20,.055) 1px,transparent 1px);background-size:80px 80px;background-position:-1px -1px}
+.rail{display:flex;align-items:center;gap:14px;font-size:12px;margin-bottom:clamp(32px,4vw,56px);white-space:nowrap}
+.rail .ln{flex:1 1 auto;height:1px;background:currentColor;min-width:24px}
+.glyph{font-family:'Fira Code',monospace;font-weight:300;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.tile:hover .glyph{transform:rotate(-10deg) scale(1.2)}
+.logbtn{transition:background .2s}
+.logbtn:hover,.logbtn:focus-visible{background:#262626}
+.logbtn:hover .more{color:#FF5A63}
+.mbtn:hover{background:#DF1F2B;color:#ffffff;border-color:#DF1F2B}
+.casebtn:hover{background:#DF1F2B;border-color:#DF1F2B}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes popA{from{opacity:0;transform:translateY(48px) scale(.97) skewY(2deg)}to{opacity:1;transform:none}}
+@keyframes popB{from{opacity:0;transform:translateY(48px) scale(.97) skewY(-2deg)}to{opacity:1;transform:none}}
+@keyframes wipe{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.outline-r{color:transparent;-webkit-text-stroke:1.5px #DF1F2B}
+.outline-w{color:transparent;-webkit-text-stroke:1.5px #5A5A5A}
+.outline{color:transparent;-webkit-text-stroke:1.5px #141414}
+
+/* custom cursor */
+.cur{position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:9999;display:none}
+.cur .ch{position:absolute;left:-18px;top:-18px;width:36px;height:36px;transition:transform .2s}
+.cur .ch::before,.cur .ch::after{content:"";position:absolute;background:#DF1F2B}
+.cur .ch::before{left:17px;top:0;width:2px;height:36px}
+.cur .ch::after{top:17px;left:0;height:2px;width:36px}
+.cur.hot .ch{transform:rotate(45deg) scale(1.5)}
+.cur .co{position:absolute;left:16px;top:14px;font:11px 'Fira Code',monospace;color:#ffffff;background:#141414;padding:2px 6px;white-space:nowrap}
+@media (hover:hover) and (pointer:fine){.cur{display:block}}
+
+@media (max-width:900px){
+.hide-sm{display:none !important}
+.stack-sm{flex-direction:column !important;align-items:stretch !important}
+.vert-sm{writing-mode:horizontal-tb;transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+.marquee,.cursor,.rise{animation:none}
+.brk{transition:none}
+.rv,.rvx,.mw{animation:none !important}
+.h1l,.h2l,.h3l,.hpx,.hrot{translate:none;rotate:none}
+}
+</style>
+</helmet>
+
+<div class="{{rootClass}}" ref="{{setRoot}}" style="background-color: #ffffff; color: #141414; font-family: 'Fira Code', ui-monospace, monospace; position: relative; overflow-x: clip; min-width: 0">
+
+<!-- cursor -->
+<div class="cur" ref="{{setCursor}}" aria-hidden="true"><div class="ch"></div><span class="co" ref="{{setCoords}}">x:0000 y:0000</span></div>
+
+<!-- ============ NAV ============ -->
+<header style="position: sticky; top: 0; z-index: 50; background: #ffffff; border-bottom: 1px solid #141414">
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; padding: 14px clamp(16px, 4vw, 64px)">
+    <a href="#inicio" aria-label="AFR — inicio" style="display: flex; align-items: center; gap: 14px">
+      <img src="./assets/792f1dc757ef7e9b02c915d6cacaa47c.png" alt="AFR" style="height: 32px; width: auto; display: block">
+      <span class="hide-sm" style="font-size: 10px; line-height: 1.3; letter-spacing: .04em">DISEÑO +<br>TECNOLOGÍA +<br>DESARROLLO WEB</span>
+    </a>
+    <nav aria-label="Secciones" style="display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 13px">
+      <sc-for list="{{nav}}" as="n" hint-placeholder-count="5">
+        <a class="nl" href="{{n.href}}" style="font-weight: {{n.weight}}"><span style="color: #DF1F2B">{{n.num}}</span> {{n.label}} /</a>
+      </sc-for>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+      <span class="hide-sm" style="font-size: 12px; color: #5C5C5C">BUE {{clock}}</span>
+      <button type="button" onClick="{{toggleBreak}}" aria-pressed="{{brokenStr}}" style="font-family: 'Fira Code', monospace; font-size: 13px; padding: 10px 14px; min-height: 44px; border: 1px solid #141414; background: {{btnBg}}; color: {{btnFg}}; cursor: pointer">{{btnLabel}}</button>
+    </div>
+  </div>
+  <div aria-hidden="true" style="height: 3px; background: #EEEEEE"><div class="bar" style="height: 3px; background: #DF1F2B"></div></div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="inicio" data-sec="inicio" style="position: relative; padding: clamp(32px, 5vw, 72px) clamp(16px, 4vw, 64px) clamp(56px, 7vw, 110px); border-bottom: 1px solid #141414; overflow: hidden">
+  <div aria-hidden="true" class="hide-sm rvx rv in" style="position: absolute; left: clamp(16px, 4vw, 64px); right: 0; top: 64px; height: 1px; background: #141414"></div>
+  <div aria-hidden="true" class="hide-sm" style="position: absolute; left: 34%; top: 0; bottom: 0; width: 1px; background: #141414"></div>
+  <div aria-hidden="true" class="hide-sm hrot" style="position: absolute; left: calc(34% - 32px); top: 32px; width: 32px; height: 32px; border: 1px solid #141414"></div>
+  <span aria-hidden="true" class="hide-sm" style="position: absolute; left: 2.4%; top: 120px; font-size: 34px; font-weight: 300">+</span>
+  <span aria-hidden="true" class="hide-sm" style="position: absolute; left: 4.2%; top: 104px; font-size: 18px; font-weight: 300">+</span>
+  <span aria-hidden="true" class="vert hide-sm" style="position: absolute; right: 14px; bottom: 32px; font-size: 11px; letter-spacing: .22em; color: #5C5C5C">DESARROLLADOR WEB — PORTFOLIO 2026 — BUENOS AIRES, ARG</span>
+
+  <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: clamp(40px, 6vw, 88px)">
+    <span style="font-size: 14px">&lt; &gt; portfolio<span style="color: #DF1F2B">.</span>v2026</span>
+    <span style="display: flex; align-items: center; gap: 14px; font-size: 16px">
+      <span style="display: inline-block; width: 72px; height: 22px; background: #141414"></span>
+      <span style="display: inline-block; width: 36px; height: 22px; background: #DF1F2B"></span>
+      <span style="color: #DF1F2B">/ / /</span>
+    </span>
+  </div>
+
+  <div class="stack-sm" style="position: relative; display: flex; gap: clamp(24px, 4vw, 64px); align-items: flex-start">
+    <div style="flex: 999 1 560px; min-width: 0">
+      <p class="rise d1" style="margin: 0 0 18px; font-size: 15px; color: #5C5C5C">// <span style="color: #141414">{{role}}</span><span class="cursor" style="width: .5em"></span></p>
+      <h1 class="disp" style="margin: 0; line-height: .82; font-weight: 900; letter-spacing: -0.03em">
+        <span class="h1l" style="display: block"><span class="brk b1 rise d1" style="display: block; font-size: clamp(64px, 13.5vw, 214px); font-stretch: 62%">AGUSTIN</span></span>
+        <span class="h2l" style="display: block"><span class="brk b2 rise d2" style="display: block; font-size: clamp(40px, 8.4vw, 134px); font-stretch: 125%; font-weight: 300; letter-spacing: -0.02em; padding-left: 9%">FERN<span style="color: #DF1F2B; font-weight: 900">A</span>NDEZ</span></span>
+        <span class="h3l" style="display: flex; align-items: flex-end; gap: 2vw">
+          <span class="brk b3 rise d3" style="position: relative; display: inline-block; font-size: clamp(64px, 13.5vw, 214px)">
+            <span class="brk hl rvx rv in" aria-hidden="true" style="position: absolute; left: -2%; top: 18%; width: 58%; height: 70%; background: #DF1F2B; mix-blend-mode: multiply; transform-origin: left"></span>
+            <span style="position: relative">ROLON</span>
+          </span>
+          <span class="brk b6 rise d4" style="font-family: 'Fira Code', monospace; font-weight: 300; color: #DF1F2B; font-size: clamp(56px, 11vw, 176px)">/</span>
+        </span>
+      </h1>
+      <p class="disp rise d4" style="margin: clamp(28px, 4vw, 48px) 0 0; max-width: 560px; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.45">Diseño y desarrollo interfaces donde <b>la estructura y la ruptura</b> se encuentran: código limpio, composición experimental.</p>
+      <div class="rise d5" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px">
+        <a href="#proyectos" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: #141414; color: #ffffff; font-size: 14px">ver proyectos ↓</a>
+        <a href="#contacto" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border: 1px solid #141414; font-size: 14px">&lt;contacto /&gt;</a>
+      </div>
+    </div>
+
+    <div class="hpx" style="flex: 1 1 340px; min-width: 0; max-width: 460px; display: flex; flex-direction: column; gap: 28px; position: relative">
+      <figure class="brk b5 rise d3" style="margin: 0; position: relative; padding-left: 26px">
+        <div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 18px; height: 62%; background: #DF1F2B"></div>
+        <img src="./assets/259ef8307e135d8df4ab71dadd4bc2a3.jpg" alt="Retrato de Agustin Fernandez Rolon" style="display: block; width: 100%; aspect-ratio: 558 / 600; object-fit: cover; filter: grayscale(1) contrast(1.25)">
+        <div aria-hidden="true" style="position: absolute; right: -10px; bottom: -10px; width: 34px; height: 34px; background: #DF1F2B"></div>
+        <figcaption style="font-size: 11px; color: #5C5C5C; margin-top: 10px">img/agustin.jpg — 558×600 · Buenos Aires, ARG</figcaption>
+      </figure>
+      <div class="rise d5" role="img" aria-label="Fragmento de código que presenta a Agustin" style="background: #141414; color: #EDEDED; font-size: 13px; line-height: 1.75; padding: 18px 20px">
+        <div style="display: flex; justify-content: space-between; color: #9A9A9A; font-size: 11px; margin-bottom: 10px; border-bottom: 1px solid #3A3A3A; padding-bottom: 8px"><span>agustin.js</span><span style="color: #DF1F2B">● ● ●</span></div>
+        <div><span style="color: #7A7A7A">01</span>  <span style="color: #FF5A63">const</span> agustin = {</div>
+        <div><span style="color: #7A7A7A">02</span>    rol: <span style="color: #ffffff">"desarrollador web"</span>,</div>
+        <div><span style="color: #7A7A7A">03</span>    base: <span style="color: #ffffff">"Buenos Aires"</span>,</div>
+        <div><span style="color: #7A7A7A">04</span>    stack: [<span style="color: #ffffff">"HTML"</span>, <span style="color: #ffffff">"CSS"</span>, <span style="color: #ffffff">"JS"</span>, <span style="color: #ffffff">"React"</span>],</div>
+        <div><span style="color: #7A7A7A">05</span>    busca: <span style="color: #ffffff">"estructura + ruptura"</span></div>
+        <div><span style="color: #7A7A7A">06</span>  };</div>
+        <div><span style="color: #7A7A7A">07</span>  <span style="color: #9A9A9A">// diseñar es experimentar</span></div>
+        <div><span style="color: #7A7A7A">08</span>  agustin.<span style="color: #FF5A63">crear</span>(); <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+  <a href="#manifiesto" class="hide-sm" style="position: absolute; left: clamp(16px, 4vw, 64px); bottom: 24px; font-size: 12px; color: #5C5C5C">scroll ↓ — 01 / manifiesto</a>
+</section>
+
+<!-- ============ CROSSING BANDS ============ -->
+<div aria-hidden="true" style="position: relative; height: clamp(150px, 16vw, 210px); overflow: hidden; border-bottom: 1px solid #141414">
+  <div style="position: absolute; left: -5%; width: 110%; top: 26%; background: #DF1F2B; color: #ffffff; padding: 14px 0; transform: rotate(-3deg); overflow: hidden">
+    <div class="marquee" style="font-size: clamp(16px, 1.6vw, 22px); white-space: nowrap">
+      <span style="padding-right: 32px">HTML / CSS / JAVASCRIPT / REACT / GIT / FIGMA / &lt; diseño + código + interacción /&gt; / WEBPACK / DOM / UX/UI /</span>
+      <span style="padding-right: 32px">HTML / CSS / JAVASCRIPT / REACT / GIT / FIGMA / &lt; diseño + código + interacción /&gt; / WEBPACK / DOM / UX/UI /</span>
+    </div>
+  </div>
+  <div style="position: absolute; left: -5%; width: 110%; top: 44%; background: #141414; color: #ffffff; padding: 14px 0; transform: rotate(2deg); overflow: hidden">
+    <div class="marquee rev disp" style="font-size: clamp(18px, 1.8vw, 24px); font-weight: 800; white-space: nowrap; letter-spacing: .02em">
+      <span style="padding-right: 32px">ESTRUCTURA <span style="color: #FF5A63">+</span> RUPTURA <span style="color: #FF5A63">+</span> INTERACCIÓN <span style="color: #FF5A63">+</span> DISEÑAR ES EXPERIMENTAR <span style="color: #FF5A63">+</span> ESTRUCTURA <span style="color: #FF5A63">+</span> RUPTURA <span style="color: #FF5A63">+</span></span>
+      <span style="padding-right: 32px">ESTRUCTURA <span style="color: #FF5A63">+</span> RUPTURA <span style="color: #FF5A63">+</span> INTERACCIÓN <span style="color: #FF5A63">+</span> DISEÑAR ES EXPERIMENTAR <span style="color: #FF5A63">+</span> ESTRUCTURA <span style="color: #FF5A63">+</span> RUPTURA <span style="color: #FF5A63">+</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 01 MANIFIESTO ============ -->
+<section id="manifiesto" data-sec="manifiesto" style="position: relative; padding: clamp(56px, 7vw, 110px) clamp(16px, 4vw, 64px); border-bottom: 1px solid #141414; overflow: hidden">
+  <div class="rail rv" data-rv="1" aria-hidden="true"><span style="background: #141414; color: #ffffff; padding: 2px 8px">01</span><span>manifiesto.md</span><span class="hide-sm" style="opacity: .75">— desarrollo del manifiesto</span><span class="ln"></span><span style="display: inline-block; width: 36px; height: 12px; background: #141414"></span><span style="display: inline-block; width: 18px; height: 12px; background: #DF1F2B"></span><span style="color: #DF1F2B">/ /</span></div>
+  <span aria-hidden="true" class="disp outline-r hide-sm" style="position: absolute; right: -2vw; bottom: 24px; font-size: clamp(120px, 15vw, 240px); font-weight: 900; line-height: .8; letter-spacing: -0.04em; font-stretch: 62%; opacity: .45; white-space: nowrap; transition: opacity .3s">{{pillarWord}}</span>
+
+  <div class="rv" data-rv="1" style="position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(40px, 5vw, 64px)">
+    <h2 class="disp brk b8" style="margin: 0; font-size: clamp(56px, 10vw, 168px); font-weight: 900; line-height: .8; letter-spacing: -0.04em; font-stretch: 62%">MANIFIES<span style="color: #DF1F2B">/</span>TO</h2>
+    <p class="disp" style="margin: 0; max-width: 340px; font-size: 15px; font-weight: 700; line-height: 1.4">Busco diseñar desde las reglas, experimentar con ellas y, en el proceso, crear nuevas reglas, nuevas formas y nuevos lenguajes.</p>
+  </div>
+  <div class="stack-sm" style="position: relative; display: flex; gap: clamp(24px, 4vw, 72px); align-items: stretch">
+    <div style="flex: 999 1 420px; min-width: 0">
+            <h3 class="rv" data-rv="1" style="margin: 0 0 40px; font-weight: 400; font-size: clamp(28px, 3.6vw, 52px); line-height: 1.2; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center">
+        <span>&lt; &gt;</span><span>Diseñar es</span><span class="rvx rv" data-rv="1" style="background: #DF1F2B; color: #ffffff; padding: 2px 16px">experimentar</span>
+      </h3>
+      <p class="disp rv" data-rv="1" style="margin: 0; max-width: 940px; font-size: clamp(20px, 2vw, 28px); line-height: 1.45; font-weight: 500">
+        <sc-for list="{{manWords}}" as="w" hint-placeholder-count="40"><span class="mw" style="transition-delay: {{w.d}}; color: {{w.c}}">{{w.t}} </span></sc-for>
+      </p>
+      <p class="disp rv" data-rv="1" style="margin: 28px 0 0; max-width: 760px; font-size: 16px; line-height: 1.65; color: #3D3D3D">Encuentro inspiración en la New Wave Typography, la Experimental Swiss Typography y el grunge: lenguajes que alteran jerarquías y deforman estructuras. Y en el vínculo entre diseño y tecnología: cómo una composición puede convertirse en un sistema interactivo.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 48px">
+        <sc-for list="{{pillars}}" as="pl" hint-placeholder-count="3">
+          <button type="button" class="pill rv" data-rv="1" onMouseEnter="{{pl.pick}}" onFocus="{{pl.pick}}" onClick="{{pl.pick}}" aria-pressed="{{pl.pressed}}" style="text-align: left; font: inherit; cursor: pointer; border: 1px solid #141414; padding: 22px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; background: {{pl.bg}}; color: {{pl.fg}}; transition-delay: {{pl.d}}">
+            <span style="display: flex; justify-content: space-between; font-size: 12px"><span>[{{pl.n}}]</span><span>{{pl.fn}}</span></span>
+            <span class="disp" style="font-size: clamp(30px, 3vw, 42px); font-weight: 900; line-height: .9; font-stretch: 70%; letter-spacing: -0.02em">{{pl.word}}</span>
+            <span class="disp" style="font-size: 15px; line-height: 1.45">{{pl.text}}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 STACK ============ -->
+<section id="stack" data-sec="stack" class="gridbg" style="position: relative; background-color: #F3F2EE; padding: clamp(56px, 7vw, 110px) clamp(16px, 4vw, 64px); border-bottom: 1px solid #141414">
+  <div class="rail rv" data-rv="1" aria-hidden="true"><span style="background: #141414; color: #ffffff; padding: 2px 8px">02</span><span>stack.json</span><span class="hide-sm" style="opacity: .75">— herramientas</span><span class="ln"></span><span style="display: inline-block; width: 36px; height: 12px; background: #141414"></span><span style="display: inline-block; width: 18px; height: 12px; background: #DF1F2B"></span><span style="color: #DF1F2B">/ /</span></div>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 48px">
+    <div class="rv" data-rv="1">
+            <h2 class="disp brk b8" style="margin: 0; font-size: clamp(56px, 10vw, 168px); font-weight: 900; line-height: .8; letter-spacing: -0.04em; font-stretch: 62%">STA<span style="color: #DF1F2B">/</span>CK</h2>
+    </div>
+    <p style="margin: 0; font-size: 13px; line-height: 1.7; max-width: 340px; color: #5C5C5C">tocá una herramienta para inspeccionarla<br><span style="color: #141414">$ npm ls --depth=0 → 8 dependencias</span></p>
+  </div>
+
+  <div class="stack-sm" style="display: flex; gap: 24px; align-items: flex-start">
+    <div style="flex: 999 1 560px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); grid-auto-rows: 190px; align-content: start; gap: 14px">
+      <sc-for list="{{tools}}" as="t" hint-placeholder-count="8">
+        <button type="button" class="tile rv" data-rv="1" onClick="{{t.pick}}" onMouseEnter="{{t.pick}}" aria-pressed="{{t.pressed}}" style="font: inherit; text-align: left; cursor: pointer; border: 1px solid #141414; padding: 18px; height: 190px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; background: {{t.bg}}; color: {{t.fg}}; transition-delay: {{t.d}}">
+          <span style="display: flex; justify-content: space-between; font-size: 12px"><span>[{{t.n}}]</span><span>{{t.cat}}</span></span>
+          <span class="glyph" aria-hidden="true" style="font-size: 34px; line-height: 1; color: {{t.gc}}">{{t.glyph}}</span>
+          <span class="disp" style="font-size: clamp(24px, 2.2vw, 32px); font-weight: 800; line-height: 1; letter-spacing: -0.02em; font-stretch: 85%">{{t.name}}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div class="rv" data-rv="1" style="flex: 1 1 360px; min-width: 0; height: 394px; overflow: hidden; background: #141414; color: #EDEDED; font-size: 14px; line-height: 1.75; display: flex; flex-direction: column">
+      <div style="display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #3A3A3A; font-size: 12px; color: #9A9A9A"><span>inspector</span><span style="color: #FF5A63">● ● ●</span></div>
+      <div style="padding: 22px 20px; flex: 1 1 auto">
+        <div><span style="color: #FF5A63">$</span> cat ./stack/{{tool.file}}</div>
+        <div class="disp" style="font-size: clamp(36px, 4vw, 56px); font-weight: 900; line-height: 1; margin: 22px 0 18px; color: #ffffff; font-stretch: 75%">{{tool.name}}<span style="color: #FF5A63">.</span></div>
+        <div><span style="color: #9A9A9A">tipo:</span> {{tool.cat}}</div>
+        <div><span style="color: #9A9A9A">qué hago:</span> {{tool.desc}}</div>
+        <div><span style="color: #9A9A9A">usado en:</span> <span style="color: #E8B04A">{{tool.used}}</span></div>
+        <div style="margin-top: 18px"><span style="color: #FF5A63">$</span> <span class="cursor"></span></div>
+      </div>
+      <div style="padding: 14px 20px; border-top: 1px solid #3A3A3A; font-size: 12px; color: #9A9A9A">idiomas / <span style="color: #ffffff">ESPAÑOL</span> nativo · <span style="color: #ffffff">INGLÉS</span> nivel alto</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 PROYECTOS ============ -->
+<section id="proyectos" data-sec="proyectos" style="position: relative; padding: clamp(56px, 7vw, 110px) 0 0; border-bottom: 1px solid #141414">
+  <div style="padding: 0 clamp(16px, 4vw, 64px)"><div class="rail rv" data-rv="1" aria-hidden="true"><span style="background: #141414; color: #ffffff; padding: 2px 8px">03</span><span>./proyectos</span><span class="hide-sm" style="opacity: .75">— personales · 2023 → presente</span><span class="ln"></span><span style="display: inline-block; width: 36px; height: 12px; background: #141414"></span><span style="display: inline-block; width: 18px; height: 12px; background: #DF1F2B"></span><span style="color: #DF1F2B">/ /</span></div></div>
+  <div style="padding: 0 clamp(16px, 4vw, 64px); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 32px">
+    <div class="rv" data-rv="1">
+            <h2 class="disp brk b8" style="margin: 0; font-size: clamp(56px, 10vw, 168px); font-weight: 900; line-height: .8; letter-spacing: -0.04em; font-stretch: 62%">PROYEC<span style="color: #DF1F2B">/</span>TOS</h2>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start">
+      <p style="margin: 0; font-size: 13px; color: #5C5C5C">$ ls ./proyectos --tech="{{filter}}" <span style="color: #141414">→ {{projCount}} resultados</span></p>
+      <div role="group" aria-label="Filtrar proyectos" style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{chips}}" as="c" hint-placeholder-count="5">
+          <button type="button" class="chip" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="font-family: 'Fira Code', monospace; font-size: 13px; min-height: 44px; padding: 0 16px; border: 1px solid #141414; cursor: pointer; background: {{c.bg}}; color: {{c.fg}}">{{c.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <ol style="list-style: none; margin: 0; padding: 0; border-top: 1px solid #141414">
+    <sc-for list="{{projects}}" as="p" hint-placeholder-count="5">
+      <li class="row" onMouseEnter="{{p.open_}}" style="border-bottom: 1px solid #141414; background: {{p.rowBg}}; color: #141414; animation: {{p.anim}} .5s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{p.d}}">
+        <button type="button" onClick="{{p.toggle}}" onFocus="{{p.open_}}" aria-expanded="{{p.expanded}}" style="width: 100%; font: inherit; color: inherit; background: transparent; border: 0; cursor: pointer; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: {{p.pad}} clamp(16px, 4vw, 64px); transition: padding .4s cubic-bezier(.2,.8,.2,1)">
+          <span style="flex: 0 0 56px; font-size: 14px; color: {{p.numC}}">./{{p.n}}</span>
+          <span style="flex: 999 1 280px; min-width: 0">
+            <span class="disp" style="display: block; font-size: {{p.size}}; font-weight: 800; line-height: 1; letter-spacing: -0.02em; font-stretch: 88%; transition: font-size .4s cubic-bezier(.2,.8,.2,1)">{{p.name}}</span>
+          </span>
+          <span style="flex: 0 1 240px; font-size: 13px">{{p.tags}}</span>
+          <span aria-hidden="true" style="flex: 0 0 auto; font-size: 30px; font-weight: 300; transition: transform .3s; transform: rotate({{p.rot}})">+</span>
+        </button>
+        <div style="display: grid; grid-template-rows: {{p.rows}}; transition: grid-template-rows .45s cubic-bezier(.2,.8,.2,1)">
+          <div style="min-height: 0; overflow: hidden">
+            <div class="stack-sm" style="display: flex; gap: 24px; padding: 0 clamp(16px, 4vw, 64px) 32px; align-items: stretch; opacity: {{p.op}}; transform: translateY({{p.ty}}); transition: opacity .4s .1s, transform .45s .05s cubic-bezier(.2,.8,.2,1)">
+              <div class="disp" aria-hidden="true" style="flex: 0 0 220px; min-height: 160px; background: #DF1F2B; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 900; font-stretch: 70%">{{p.glyph}}</div>
+              <div style="flex: 999 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px; justify-content: space-between">
+                <p class="disp" style="margin: 0; font-size: 18px; line-height: 1.5; max-width: 620px">{{p.desc}}</p>
+                <div style="background: #141414; color: #EDEDED; padding: 14px 16px; font-size: 13px; overflow-x: auto; white-space: nowrap"><span style="color: #7A7A7A">01</span>  {{p.code}}</div>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px">
+                  <button type="button" class="casebtn" onClick="{{p.openCase}}" tabindex="{{p.tab}}" style="font-family: 'Fira Code', monospace; font-size: 14px; min-height: 44px; padding: 0 18px; background: #141414; color: #ffffff; border: 1px solid #141414; cursor: pointer">abrir caso [+]</button>
+                  <a href="{{p.href}}" tabindex="{{p.tab}}" style="font-size: 14px; color: #141414; text-decoration: underline; text-underline-offset: 4px">ver código ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </sc-for>
+  </ol>
+</section>
+
+<!-- ============ 04 TRAYECTORIA ============ -->
+<section id="trayectoria" data-sec="trayectoria" style="position: relative; padding: clamp(56px, 7vw, 110px) clamp(16px, 4vw, 64px); border-bottom: 1px solid #141414">
+  <div class="rail rv" data-rv="1" aria-hidden="true"><span style="background: #141414; color: #ffffff; padding: 2px 8px">04</span><span>git log</span><span class="hide-sm" style="opacity: .75">— experiencia + educación</span><span class="ln"></span><span style="display: inline-block; width: 36px; height: 12px; background: #141414"></span><span style="display: inline-block; width: 18px; height: 12px; background: #DF1F2B"></span><span style="color: #DF1F2B">/ /</span></div>
+  <h2 class="disp brk b8" style="margin: 0; font-size: clamp(56px, 10vw, 168px); font-weight: 900; line-height: .8; letter-spacing: -0.04em; font-stretch: 62%; margin-bottom: clamp(40px, 5vw, 64px)">TRAYEC<span style="color: #DF1F2B">/</span>TORIA</h2>
+  <div class="stack-sm" style="display: flex; gap: clamp(24px, 5vw, 80px); align-items: flex-start">
+    <div class="rv" data-rv="1" style="flex: 1 1 320px; min-width: 0; position: sticky; top: 120px">
+
+      <p class="disp" style="margin: 0; max-width: 380px; font-size: 17px; line-height: 1.6">Diseñador multimedia y desarrollador web en formación, buscando crecer en el mundo del frontend con proyectos que combinen creatividad, código y diseño.</p>
+    </div>
+
+    <div style="flex: 999 1 560px; min-width: 0; background: #141414; color: #EDEDED; font-size: 14px; line-height: 1.7">
+      <div style="display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #3A3A3A; font-size: 12px; color: #9A9A9A">
+        <span>~/agustin — zsh</span><span><span style="color: #FF5A63">■</span> main</span>
+      </div>
+      <div style="padding: 22px 20px 28px; overflow-x: auto">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap"><span><span style="color: #FF5A63">$</span> git log --graph --experiencia</span><span style="background: #DF1F2B; color: #ffffff; padding: 0 10px; font-size: 12px; letter-spacing: .08em">EXPERIENCIA /</span></div>
+        <sc-for list="{{exp}}" as="c" hint-placeholder-count="3">
+          <button type="button" class="rv logbtn" onClick="{{c.open}}" style="display: flex; gap: 14px; width: 100%; min-width: 460px; padding: 8px 10px 14px; margin: 0 -10px 6px; font: inherit; color: inherit; text-align: left; background: transparent; border: 0; cursor: pointer">
+            <span style="color: #FF5A63; flex: 0 0 auto">*<br>|</span>
+            <span style="flex: 1 1 auto; display: block">
+              <span style="display: block"><span style="color: #E8B04A">{{c.hash}}</span> <span style="color: #9A9A9A">{{c.head}}</span> <span style="color: #9A9A9A">· {{c.date}}</span></span>
+              <span style="display: block; color: #ffffff; font-weight: 600">{{c.title}}</span>
+              <span style="display: block; color: #B5B5B5">{{c.body}}</span>
+              <span class="more" style="display: block; margin-top: 4px; font-size: 12px; color: #7A7A7A">$ git show {{c.hash}} → ver detalle [+]</span>
+            </span>
+          </button>
+        </sc-for>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 14px 0 18px; padding-top: 22px; border-top: 1px dashed #3A3A3A; flex-wrap: wrap"><span><span style="color: #FF5A63">$</span> git log --graph --educacion</span><span style="background: #ffffff; color: #141414; padding: 0 10px; font-size: 12px; letter-spacing: .08em">EDUCACIÓN /</span></div>
+        <sc-for list="{{edu}}" as="c" hint-placeholder-count="5">
+          <button type="button" class="rv logbtn" onClick="{{c.open}}" style="display: flex; gap: 14px; width: 100%; min-width: 460px; padding: 8px 10px 14px; margin: 0 -10px 6px; font: inherit; color: inherit; text-align: left; background: transparent; border: 0; cursor: pointer">
+            <span style="color: #FF5A63; flex: 0 0 auto">*<br>|</span>
+            <span style="flex: 1 1 auto; display: block">
+              <span style="display: block"><span style="color: #E8B04A">{{c.hash}}</span> <span style="color: #9A9A9A">{{c.head}}</span> <span style="color: #9A9A9A">· {{c.date}}</span></span>
+              <span style="display: block; color: #ffffff; font-weight: 600">{{c.title}}</span>
+              <span style="display: block; color: #B5B5B5">{{c.body}}</span>
+              <span class="more" style="display: block; margin-top: 4px; font-size: 12px; color: #7A7A7A">$ git show {{c.hash}} → ver detalle [+]</span>
+            </span>
+          </button>
+        </sc-for>
+        <div><span style="color: #FF5A63">$</span> <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 CONTACTO ============ -->
+<section id="contacto" data-sec="contacto" style="position: relative; background: #DF1F2B; color: #ffffff; padding: clamp(56px, 7vw, 110px) clamp(16px, 4vw, 64px); overflow: hidden">
+  <div class="rail rv" data-rv="1" aria-hidden="true"><span style="background: #141414; color: #ffffff; padding: 2px 8px">05</span><span>contacto.sh</span><span class="hide-sm" style="opacity: .75">— hablemos</span><span class="ln"></span><span style="display: inline-block; width: 36px; height: 12px; background: #141414"></span><span style="display: inline-block; width: 18px; height: 12px; background: #ffffff"></span><span style="color: #ffffff">/ /</span></div>
+  <div aria-hidden="true" class="hide-sm" style="position: absolute; right: 6%; top: 150px; width: 200px; height: 220px">
+    <span style="position: absolute; right: 40px; top: 0; width: 70px; height: 130px; background: #141414"></span>
+    <span style="position: absolute; right: 0; top: 70px; width: 90px; height: 90px; background: #ffffff"></span>
+    <span style="position: absolute; right: 60px; top: 150px; width: 140px; height: 16px; background: #141414"></span>
+    <span style="position: absolute; left: 0; top: 40px; font-size: 34px; font-weight: 300">+</span>
+  </div>
+  <h2 class="disp rv" data-rv="1" style="margin: 0; font-size: clamp(64px, 15vw, 250px); font-weight: 900; line-height: .8; letter-spacing: -0.045em; font-stretch: 62%">HABLE<span style="color: #141414">MOS</span> <span style="font-family: 'Fira Code', monospace; font-weight: 300; color: #141414">/</span></h2>
+
+  <div class="stack-sm" style="display: flex; gap: 32px; margin-top: clamp(40px, 5vw, 72px); align-items: stretch; flex-wrap: wrap">
+    <div class="rv" data-rv="1" style="flex: 999 1 560px; min-width: 0; background: #141414; color: #EDEDED; font-size: 14px; line-height: 1.8; display: flex; flex-direction: column">
+      <div style="display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #3A3A3A; font-size: 12px; color: #9A9A9A"><span>contacto.sh — probá escribir "help"</span><span style="color: #FF5A63">● ● ●</span></div>
+      <div ref="{{setTerm}}" aria-live="polite" style="padding: 18px 20px; height: 280px; overflow-y: auto">
+        <sc-for list="{{history}}" as="h" hint-placeholder-count="3">
+          <div style="color: {{h.c}}; white-space: pre-wrap; word-break: break-word">{{h.t}}</div>
+        </sc-for>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-top: 1px solid #3A3A3A">
+        <label for="cmd" style="color: #FF5A63">$</label>
+        <input id="cmd" type="text" autocomplete="off" spellcheck="false" value="{{cmd}}" onChange="{{onCmd}}" onKeyDown="{{onKey}}" placeholder="escribí un comando y Enter" style="flex: 1 1 auto; min-width: 0; min-height: 40px; background: transparent; border: 0; outline: none; color: #ffffff; font-family: 'Fira Code', monospace; font-size: 14px">
+      </div>
+    </div>
+    <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 10px">
+      <p style="margin: 0 0 6px; font-size: 12px">comandos rápidos /</p>
+      <sc-for list="{{quick}}" as="q" hint-placeholder-count="5">
+        <button type="button" class="cmd" onClick="{{q.run}}" style="font-family: 'Fira Code', monospace; font-size: 14px; min-height: 48px; padding: 0 18px; background: #ffffff; color: #141414; border: 1px solid #ffffff; cursor: pointer; text-align: left">$ {{q.c}}</button>
+      </sc-for>
+      <a href="mailto:fernandezrolon.ags@gmail.com" style="display: flex; align-items: center; min-height: 48px; padding: 0 18px; border: 1px solid #ffffff; color: #ffffff; font-size: 14px; margin-top: auto">escribir un mail ↗</a>
+    </div>
+  </div>
+  <p style="margin: 32px 0 0; font-size: 13px">uptime de tu visita: <b>{{uptime}}</b> — tiempo que ya podríamos estar codeando.</p>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer style="background: #141414; color: #EDEDED; overflow: hidden">
+  <div class="disp" aria-hidden="true" style="padding: clamp(40px, 5vw, 72px) clamp(16px, 4vw, 64px) 0; font-size: clamp(110px, 26vw, 420px); font-weight: 900; line-height: .76; letter-spacing: -0.05em; font-stretch: 62%; white-space: nowrap"><span class="outline-w">AFR</span><span style="color: #DF1F2B">/</span><span style="color: #EDEDED">DEV</span></div>
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px; padding: 26px clamp(16px, 4vw, 64px) 80px; border-top: 1px solid #3A3A3A; margin-top: 32px; font-size: 12px">
+    <span>© 2026 AFR <span style="color: #FF5A63">/</span> diseñado y desarrollado con &lt; código /&gt;</span>
+    <span style="display: flex; gap: 8px; align-items: center" aria-hidden="true"><span style="width: 40px; height: 12px; background: #ffffff"></span><span style="width: 20px; height: 12px; background: #DF1F2B"></span></span>
+    <a href="#inicio" style="color: #EDEDED">volver arriba ↑</a>
+  </div>
+</footer>
+
+<!-- ============ POPUP / VENTANA ============ -->
+<sc-if value="{{modalOpen}}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-label="{{m.title}}" onKeyDown="{{modalKey}}" style="position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: clamp(10px, 3vw, 48px)">
+    <button type="button" aria-label="Cerrar ventana" tabindex="-1" onClick="{{closeModal}}" style="position: absolute; inset: 0; border: 0; padding: 0; background: rgba(20,20,20,.82); cursor: pointer; animation: fade .3s both"></button>
+    <div style="position: relative; width: min(1120px, 100%); max-height: 100%; overflow: auto; background: #ffffff; color: #141414; border: 1px solid #141414; box-shadow: 14px 14px 0 #DF1F2B; animation: {{m.anim}} .5s cubic-bezier(.2,.8,.2,1) both">
+      <span aria-hidden="true" style="position: absolute; inset: 0; background: #DF1F2B; transform-origin: right; animation: wipe .55s cubic-bezier(.7,0,.2,1) .05s both; z-index: 5; pointer-events: none"></span>
+
+      <div style="position: sticky; top: 0; z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: #141414; color: #EDEDED; padding: 8px 10px 8px 18px; font-size: 12px">
+        <span><span style="color: #FF5A63">● ● ●</span>  {{m.file}}</span>
+        <span style="display: flex; align-items: center; gap: 6px">
+          <span style="color: #9A9A9A; margin-right: 8px">{{m.idx}} / {{m.total}}</span>
+          <button type="button" onClick="{{prevModal}}" aria-label="Anterior" class="mbtn" style="font-family: 'Fira Code', monospace; min-width: 44px; min-height: 40px; background: transparent; color: #ffffff; border: 1px solid #3A3A3A; cursor: pointer">←</button>
+          <button type="button" onClick="{{nextModal}}" aria-label="Siguiente" class="mbtn" style="font-family: 'Fira Code', monospace; min-width: 44px; min-height: 40px; background: transparent; color: #ffffff; border: 1px solid #3A3A3A; cursor: pointer">→</button>
+          <button type="button" ref="{{setClose}}" onClick="{{closeModal}}" class="mbtn" style="font-family: 'Fira Code', monospace; min-height: 40px; padding: 0 14px; background: #ffffff; color: #141414; border: 1px solid #ffffff; cursor: pointer">[x] esc</button>
+        </span>
+      </div>
+
+      <div style="padding: clamp(24px, 4vw, 56px)">
+        <div class="rail" aria-hidden="true" style="margin-bottom: 28px"><span style="background: #DF1F2B; color: #ffffff; padding: 2px 8px">{{m.kicker}}</span><span>{{m.date}}</span><span class="ln"></span><span style="display: inline-block; width: 36px; height: 12px; background: #141414"></span><span style="display: inline-block; width: 18px; height: 12px; background: #DF1F2B"></span></div>
+        <h2 class="disp" style="margin: 0 0 clamp(28px, 4vw, 48px); font-size: clamp(44px, 7vw, 108px); font-weight: 900; line-height: .84; letter-spacing: -0.04em; font-stretch: 62%">{{m.title}}<span style="color: #DF1F2B">/</span></h2>
+
+        <div class="stack-sm" style="display: flex; gap: clamp(24px, 4vw, 56px); align-items: flex-start">
+          <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+            <div class="disp" aria-hidden="true" style="position: relative; aspect-ratio: 4 / 3; background: #DF1F2B; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: clamp(48px, 6vw, 84px); font-weight: 900; font-stretch: 70%; overflow: hidden">
+              <span style="position: absolute; left: 12px; top: 10px; font-family: 'Fira Code', monospace; font-size: 11px; font-weight: 400">{{m.file}}</span>
+              <span style="position: absolute; right: -10px; bottom: -10px; width: 38%; height: 26%; background: #141414"></span>
+              <span style="position: relative">{{m.glyph}}</span>
+            </div>
+            <sc-if value="{{m.isProj}}" hint-placeholder-val="{{ false }}">
+              <div style="aspect-ratio: 16 / 9; border: 1px dashed #141414; background: repeating-linear-gradient(135deg, #F3F2EE 0 10px, #ffffff 10px 20px); display: flex; align-items: flex-end; padding: 10px; font-size: 11px; color: #5C5C5C">[CAPTURA DEL PROYECTO]</div>
+            </sc-if>
+            <dl style="margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font-size: 13px; border-top: 1px solid #141414; padding-top: 16px">
+              <sc-for list="{{m.meta}}" as="mt" hint-placeholder-count="3">
+                <dt style="color: #5C5C5C">{{mt.k}}</dt><dd style="margin: 0">{{mt.v}}</dd>
+              </sc-for>
+            </dl>
+          </div>
+
+          <div style="flex: 999 1 420px; min-width: 0">
+            <p class="disp" style="margin: 0 0 32px; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.5; font-weight: 500">{{m.desc}}</p>
+            <sc-for list="{{m.sections}}" as="sec" hint-placeholder-count="2">
+              <div style="margin-bottom: 28px">
+                <h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 600"><span style="color: #DF1F2B">##</span> {{sec.h}}</h3>
+                <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+                  <sc-for list="{{sec.items}}" as="it" hint-placeholder-count="3">
+                    <li class="disp" style="display: flex; gap: 10px; font-size: 16px; line-height: 1.5"><span style="color: #DF1F2B; font-family: 'Fira Code', monospace">+</span><span>{{it.t}}</span></li>
+                  </sc-for>
+                </ul>
+              </div>
+            </sc-for>
+            <sc-if value="{{m.isProj}}" hint-placeholder-val="{{ false }}">
+              <div style="background: #141414; color: #EDEDED; padding: 14px 16px; font-size: 13px; overflow-x: auto; white-space: nowrap; margin-bottom: 24px"><span style="color: #7A7A7A">01</span>  {{m.code}}</div>
+            </sc-if>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; border-top: 1px solid #141414; padding-top: 20px">
+              <sc-if value="{{m.isProj}}" hint-placeholder-val="{{ false }}">
+                <a href="#proyectos" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; background: #141414; color: #ffffff; font-size: 14px">ver código ↗</a>
+              </sc-if>
+              <button type="button" onClick="{{nextModal}}" class="mbtn" style="font-family: 'Fira Code', monospace; font-size: 14px; min-height: 48px; padding: 0 20px; background: #ffffff; color: #141414; border: 1px solid #141414; cursor: pointer">siguiente: {{m.nextTitle}} →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- HUD -->
+<div aria-hidden="true" class="hide-sm" style="position: fixed; right: 16px; bottom: 16px; z-index: 60; background: #141414; color: #EDEDED; font-size: 11px; line-height: 1.6; padding: 8px 12px; border-left: 4px solid #DF1F2B">
+  <div><span style="color: #FF5A63">//</span> {{secLabel}}</div>
+  <div>scroll {{scrollPct}}% · uptime {{uptime}}</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":7400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      broken: false, clock: '--:--:--', mounted: false,
+      roleIdx: 0, role: 'desarrollador web',
+      pillar: 0, tool: 2, filter: 'todos', openProj: '01',
+      sec: 'inicio', scrollPct: 0, secs: 0,
+      cmd: '',
+      history: [
+        { k: 'out', t: 'contacto.sh v1.0 — conexión establecida.' },
+        { k: 'out', t: 'escribí "help" para ver los comandos.' }
+      ]
+    };
+    this.roles = ['desarrollador web', 'diseñador multimedia', 'creador de interfaces', 'frontend en formación'];
+  }
+
+  componentDidMount() {
+    var self = this;
+    var tick = function () {
+      var t = '--:--:--';
+      try { t = new Date().toLocaleTimeString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false }); } catch (e) {}
+      self.setState(function (s) { return { clock: t, secs: s.secs + 1 }; });
+    };
+    tick();
+    this._timer = setInterval(tick, 1000);
+    this._roleTimer = setInterval(function () { self.scrambleTo((self.state.roleIdx + 1) % self.roles.length); }, 3600);
+
+    // scroll-linked vars
+    this._onScroll = function (e) {
+      var t = e && e.target;
+      if (!t || t === document || t === document.documentElement || t === document.body) t = document.scrollingElement || document.documentElement;
+      if (!t || !self.rootEl || (t.contains && !t.contains(self.rootEl))) return;
+      if (self._raf) return;
+      self._raf = requestAnimationFrame(function () {
+        self._raf = null;
+        var st = t.scrollTop, max = t.scrollHeight - t.clientHeight;
+        var p = Math.max(0, Math.min(1, st / Math.max(1, t.clientHeight * 0.9)));
+        var sp = max > 0 ? st / max : 0;
+        self.rootEl.style.setProperty('--p', p.toFixed(4));
+        self.rootEl.style.setProperty('--sp', sp.toFixed(4));
+        var pct = Math.round(sp * 100);
+        if (pct !== self.state.scrollPct) self.setState({ scrollPct: pct });
+      });
+    };
+    document.addEventListener('scroll', this._onScroll, { capture: true, passive: true });
+
+    // cursor
+    this._onMove = function (e) {
+      if (!self.curEl) return;
+      self.curEl.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+      if (self.coEl) self.coEl.textContent = 'x:' + String(Math.round(e.clientX)).padStart(4, '0') + ' y:' + String(Math.round(e.clientY)).padStart(4, '0');
+      var hot = e.target && e.target.closest && e.target.closest('a,button,input');
+      self.curEl.classList.toggle('hot', !!hot);
+    };
+    document.addEventListener('mousemove', this._onMove, { passive: true });
+
+    // reveals + active section
+    this._ioT = setTimeout(function () {
+      if (!self.rootEl || typeof IntersectionObserver === 'undefined') { self.setState({ mounted: false }); return; }
+      self._io2 = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) self.setState({ sec: en.target.getAttribute('data-sec') }); });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      self.rootEl.querySelectorAll('[data-sec]').forEach(function (el) { self._io2.observe(el); });
+    }, 60);
+    this.setState({ mounted: true });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.modal && !prevState.modal && this.closeEl) { try { this.closeEl.focus(); } catch (e) {} }
+    if (this.termEl && prevState.history !== this.state.history) this.termEl.scrollTop = this.termEl.scrollHeight;
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._timer); clearInterval(this._roleTimer); clearInterval(this._scr); clearTimeout(this._ioT);
+    document.removeEventListener('scroll', this._onScroll, { capture: true });
+    document.removeEventListener('mousemove', this._onMove);
+    if (this._io) this._io.disconnect();
+    if (this._io2) this._io2.disconnect();
+  }
+
+  openModal(type, i) {
+    this._lastFocus = document.activeElement;
+    this.setState({ modal: { type: type, i: i, k: ((this.state.modal && this.state.modal.k) || 0) + 1 } });
+  }
+  stepModal(d) {
+    var md = this.state.modal; if (!md) return;
+    this.setState({ modal: { type: md.type, i: md.i + d, k: md.k + 1 } });
+  }
+  closeModal() {
+    this.setState({ modal: null });
+    var f = this._lastFocus; if (f && f.focus) setTimeout(function () { try { f.focus(); } catch (e) {} }, 0);
+  }
+
+  scrambleTo(idx) {
+    var self = this, target = this.roles[idx], chars = '!<>-_/[]{}=+*^?#01', frame = 0, total = 14;
+    clearInterval(this._scr);
+    this._scr = setInterval(function () {
+      frame++;
+      var out = '';
+      for (var i = 0; i < target.length; i++) {
+        out += (i < (frame / total) * target.length || target[i] === ' ') ? target[i] : chars[Math.floor(Math.random() * chars.length)];
+      }
+      self.setState({ role: out, roleIdx: idx });
+      if (frame >= total) { clearInterval(self._scr); self.setState({ role: target }); }
+    }, 45);
+  }
+
+  run(raw) {
+    var self = this;
+    var c = String(raw || '').trim().toLowerCase();
+    if (!c) return;
+    var out = [];
+    var add = function (t, k) { out.push({ k: k || 'out', t: t }); };
+    if (c === 'clear') { this.setState({ history: [], cmd: '' }); return; }
+    if (c === 'help') add('comandos: whoami · email · web · stack · ubicacion · romper · clear · sudo contratar');
+    else if (c === 'whoami') add('agustin fernandez rolon — desarrollador web / diseñador multimedia');
+    else if (c === 'email') {
+      add('fernandezrolon.ags@gmail.com  (copiado al portapapeles ✓)', 'ok');
+      try { navigator.clipboard && navigator.clipboard.writeText('fernandezrolon.ags@gmail.com'); } catch (e) {}
+    }
+    else if (c === 'web') add('→ agustinfr.dev');
+    else if (c === 'stack') add('html · css · javascript · react · git · webpack · figma · adobe');
+    else if (c === 'ubicacion' || c === 'ubicación') add('Buenos Aires, ARG — UTC-3');
+    else if (c === 'romper') { this.setState({ broken: !this.state.broken }); add(this.state.broken ? 'grilla restaurada.' : 'grilla rota. scrolleá hacia arriba ↑', 'ok'); }
+    else if (c === 'sudo contratar') add('permiso concedido ✓ — escribime a fernandezrolon.ags@gmail.com', 'ok');
+    else add('comando no encontrado: ' + c + ' — probá "help"', 'err');
+    this.setState(function (s) { return { history: s.history.concat([{ k: 'cmd', t: '$ ' + c }]).concat(out).slice(-40), cmd: '' }; });
+  }
+
+  renderVals() {
+    var self = this, st = this.state, broken = st.broken;
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    var up = pad(Math.floor(st.secs / 3600)) + ':' + pad(Math.floor(st.secs / 60) % 60) + ':' + pad(st.secs % 60);
+
+    var secs = [
+      { id: 'manifiesto', num: '01', label: 'manifiesto' },
+      { id: 'stack', num: '02', label: 'stack' },
+      { id: 'proyectos', num: '03', label: 'proyectos' },
+      { id: 'trayectoria', num: '04', label: 'trayectoria' },
+      { id: 'contacto', num: '05', label: 'contacto' }
+    ];
+    var nav = secs.map(function (s) { return { href: '#' + s.id, num: s.num, label: s.label, weight: st.sec === s.id ? '700' : '400' }; });
+    var cur = secs.filter(function (s) { return s.id === st.sec; })[0];
+    var secLabel = cur ? cur.num + '_' + cur.label : '00_inicio';
+
+    var manText = 'Me interesa explorar el punto donde la estructura y la ruptura se encuentran. Sistemas visuales que parten de una lógica, una retícula o una regla para luego cuestionarla, transformarla y llevarla hacia nuevas posibilidades. Experimentar no es abandonar las reglas: es conocerlas lo suficiente como para intervenirlas con intención.';
+    var red = { 'estructura': 1, 'ruptura': 1, 'regla': 1, 'intervenirlas': 1, 'intención.': 1 };
+    var manWords = manText.split(' ').map(function (w, i) { return { t: w, d: (i * 22) + 'ms', c: red[w] ? '#DF1F2B' : '#141414' }; });
+
+    var pData = [
+      { n: '01', word: 'ESTRUCTURA', fn: 'regla.definir()', text: 'Partir de una lógica, una retícula, un sistema que ordene.' },
+      { n: '02', word: 'RUPTURA', fn: 'regla.romper()', text: 'Cuestionarla, deformarla y llevarla hacia nuevas formas.' },
+      { n: '03', word: 'INTERACCIÓN', fn: 'forma.responder()', text: 'Que la composición se mueva, responda y se transforme.' }
+    ];
+    var pillars = pData.map(function (p, i) {
+      var on = st.pillar === i;
+      return Object.assign({}, p, { bg: on ? '#141414' : '#ffffff', fg: on ? '#ffffff' : '#141414', pressed: on ? 'true' : 'false', d: (i * 120) + 'ms', pick: function () { if (self.state.pillar !== i) self.setState({ pillar: i }); } });
+    });
+
+    var tData = [
+      { n: '01', name: 'HTML / CSS', file: 'html-css.md', cat: 'markup', desc: 'maquetado semántico, Flexbox, Grid y diseño responsive.', used: 'Crunchyroll UI Clone, Calculadora' },
+      { n: '02', name: 'JavaScript', file: 'javascript.md', cat: 'lenguaje', desc: 'vanilla JS, DOM, módulos ES y consumo de APIs.', used: 'todos los proyectos' },
+      { n: '03', name: 'React', file: 'react.md', cat: 'framework', desc: 'componentes, props y estado — nivel básico, en formación.', used: 'Bootcamp Udemy, pasantía CleverIT' },
+      { n: '04', name: 'Git / GitHub', file: 'git.md', cat: 'versionado', desc: 'ramas, commits y trabajo colaborativo.', used: 'todos los proyectos' },
+      { n: '05', name: 'Webpack', file: 'webpack.md', cat: 'build', desc: 'bundling y organización con módulos ES.', used: 'proyectos personales' },
+      { n: '06', name: 'DOM / Storage', file: 'dom.md', cat: 'web apis', desc: 'interfaces dinámicas y persistencia con LocalStorage.', used: 'App de tareas, Color Palette Generator' },
+      { n: '07', name: 'Figma', file: 'figma.md', cat: 'diseño', desc: 'interfaces, prototipos y sistemas de diseño.', used: 'diseño freelance, curso UX/UI de Google' },
+      { n: '08', name: 'Adobe', file: 'adobe.md', cat: 'diseño', desc: 'Photoshop, Illustrator y After Effects para identidad y motion.', used: 'diseño freelance' }
+    ];
+    var G = ['</>', '{ }', '<R/>', '-o-', '[ ]', '#id', '◇', 'Ai'];
+    var tools = tData.map(function (t, i) {
+      var on = st.tool === i;
+      return Object.assign({}, t, { glyph: G[i], gc: on ? '#ffffff' : '#DF1F2B', bg: on ? '#DF1F2B' : '#ffffff', fg: on ? '#ffffff' : '#141414', pressed: on ? 'true' : 'false', d: (i * 60) + 'ms', pick: function () { if (self.state.tool !== i) self.setState({ tool: i }); } });
+    });
+
+    var prData = [
+      { n: '01', cats: ['HTML', 'CSS', 'JavaScript'], glyph: 'UI', name: 'Crunchyroll UI Clone', desc: 'Clon de la interfaz de la plataforma de streaming: grilla de contenidos, navegación y estados hover.', tags: 'HTML / CSS / JS', code: 'grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));' },
+      { n: '02', cats: ['JavaScript', 'DOM'], glyph: '#DF1F2B', name: 'Color Palette Generator', desc: 'Generador de paletas de color en JavaScript, con bloqueo de tonos y copia del código hex.', tags: 'JavaScript / DOM', code: "const hex = '#' + Math.floor(Math.random() * 0xffffff).toString(16);" },
+      { n: '03', cats: ['HTML', 'CSS', 'JavaScript', 'DOM'], glyph: '7+8=', name: 'Calculadora', desc: 'App web hecha con vanilla JS: operaciones encadenadas y teclado.', tags: 'HTML / CSS / JS', code: "keys.forEach(k => k.addEventListener('click', () => calc(k.dataset.op)));" },
+      { n: '04', cats: ['JavaScript', 'Cordova'], glyph: '[✓]', name: 'App de tareas', desc: 'Lista de tareas con notificaciones locales, empaquetada como APK con Cordova.', tags: 'JS / Cordova / APK', code: 'cordova.plugins.notification.local.schedule({ title: tarea.nombre });' },
+      { n: '05', cats: ['JavaScript', 'API REST'], glyph: '24°', name: 'App de clima', desc: 'Pronóstico del tiempo consumiendo una API externa, con búsqueda por ciudad.', tags: 'JS / API REST / fetch', code: 'const res = await fetch(API_URL + ciudad); const data = await res.json();' }
+    ];
+    var filt = prData.filter(function (p) { return st.filter === 'todos' || p.cats.indexOf(st.filter) >= 0; });
+    var projects = filt.map(function (p, i) {
+      var open = st.openProj === p.n;
+      return Object.assign({}, p, {
+        tags: p.cats.join(' / '),
+        open: open, expanded: open ? 'true' : 'false', rot: open ? '45deg' : '0deg',
+        rows: open ? '1fr' : '0fr', op: open ? '1' : '0', ty: open ? '0px' : '-16px', tab: open ? '0' : '-1',
+        pad: open ? '32px' : '22px', size: open ? 'clamp(34px, 4.6vw, 70px)' : 'clamp(28px, 3.4vw, 50px)',
+        numC: open ? '#DF1F2B' : '#141414',
+        rowBg: open ? '#F3F2EE' : '#ffffff', href: '#proyectos', d: (i * 70) + 'ms', anim: (st.filterKey || 0) % 2 ? 'rowin2' : 'rowin',
+        openCase: function () { self.openModal('proj', prData.indexOf(p)); },
+        open_: function () { if (self.state.openProj !== p.n) self.setState({ openProj: p.n }); },
+        toggle: function () { self.setState({ openProj: self.state.openProj === p.n ? '' : p.n }); }
+      });
+    });
+    var chips = ['todos', 'HTML', 'CSS', 'JavaScript', 'DOM', 'Cordova', 'API REST'].map(function (c) {
+      var on = st.filter === c;
+      var count = c === 'todos' ? prData.length : prData.filter(function (p) { return p.cats.indexOf(c) >= 0; }).length;
+      return { label: c + ' (' + count + ')', bg: on ? '#141414' : '#ffffff', fg: on ? '#ffffff' : '#141414', pressed: on ? 'true' : 'false', pick: function () {
+        var first = prData.filter(function (p) { return c === 'todos' || p.cats.indexOf(c) >= 0; })[0];
+        self.setState({ filter: c, openProj: first ? first.n : '', filterKey: (self.state.filterKey || 0) + 1 });
+      } };
+    });
+
+    var exp = [
+      { hash: 'a7f3e2c', head: '(HEAD -> main)', date: '2023 — presente', title: 'Diseñador freelance', body: 'Diseño gráfico e interfaces web: identidad visual, redes sociales y piezas digitales para distintos clientes.' },
+      { hash: '5d2c8b4', head: '(CleverIT)', date: 'mar 2025 — ago 2025', title: 'Pasantía — Desarrollador frontend en CleverIT', body: 'Componentes en React para aplicaciones internas, maquetado responsive y versionado con Git dentro de un equipo ágil (Scrum).' },
+      { hash: '2e91f07', head: '(Movistar)', date: '2021 — 2022', title: 'Soporte técnico — Movistar', body: 'Diagnóstico y resolución de incidencias de conectividad, configuración de equipos y documentación de casos para clientes.' }
+    ];
+    var edu = [
+      { hash: '3b5e8f1', head: '(init)', date: '2008 — 2020', title: 'Colegio Manuel Belgrano', body: 'Bachiller en Ciencias Sociales y Humanidades.' },
+      { hash: '9e2d7a1', head: '', date: '2022 — presente', title: 'UADE — Universidad Argentina de la Empresa', body: 'Licenciatura en Diseño Multimedia e Interacción.' },
+      { hash: '6a4f2d9', head: '', date: '2023', title: 'Certificado de Diseño UX/UI — Google', body: 'Investigación de usuarios, wireframes, prototipos en Figma y testeo de usabilidad.' },
+      { hash: '1f08b3e', head: '', date: '2024', title: 'Bootcamp de Desarrollo Fullstack — Udemy', body: 'HTML, CSS, JavaScript, React, Node.js, Express y MongoDB.' },
+      { hash: 'c0d3e55', head: '(HEAD)', date: '2024 — presente', title: 'The Odin Project — Full Stack JavaScript', body: 'Currículum open source basado en proyectos: JavaScript, testing, Node.js y bases de datos.' }
+    ];
+
+    var details = {
+      'a7f3e2c': { kicker: 'experiencia', glyph: 'AFR', meta: [['rol', 'diseñador gráfico y de interfaces'], ['modalidad', 'freelance / remoto'], ['herramientas', 'Figma · Illustrator · Photoshop · After Effects']],
+        sections: [['qué hice', ['Identidades visuales para emprendimientos y marcas personales', 'Piezas para redes sociales y campañas digitales', 'Diseño de interfaces web en Figma, listas para desarrollo']], ['qué me llevo', ['Trabajar con clientes reales, tiempos y feedback', 'Pensar el diseño como un sistema reutilizable']]] },
+      '5d2c8b4': { kicker: 'experiencia', glyph: 'CIT', meta: [['rol', 'pasante — desarrollador frontend'], ['equipo', 'ágil (Scrum)'], ['stack', 'React · JavaScript · Git · Figma']],
+        sections: [['qué hice', ['Componentes en React para aplicaciones internas', 'Maquetado responsive a partir de diseños en Figma', 'Pull requests y revisión de código con Git', 'Dailies, planning y retrospectivas']], ['qué me llevo', ['Trabajar dentro de un código compartido', 'Convenciones y buenas prácticas de equipo']]] },
+      '2e91f07': { kicker: 'experiencia', glyph: 'MOV', meta: [['rol', 'soporte técnico'], ['foco', 'atención al cliente'], ['habilidades', 'diagnóstico · comunicación · documentación']],
+        sections: [['qué hice', ['Diagnóstico de problemas de conectividad', 'Configuración de módems y equipos', 'Registro y seguimiento de casos']], ['qué me llevo', ['Explicar lo técnico en lenguaje simple', 'Resolver problemas bajo presión']]] },
+      '3b5e8f1': { kicker: 'educación', glyph: 'CMB', meta: [['título', 'Bachiller en Ciencias Sociales y Humanidades'], ['período', '2008 — 2020']],
+        sections: [['base', ['Formación en ciencias sociales y humanidades', 'Interés temprano por la comunicación y la imagen']]] },
+      '9e2d7a1': { kicker: 'educación', glyph: 'UADE', meta: [['carrera', 'Lic. en Diseño Multimedia e Interacción'], ['estado', 'en curso']],
+        sections: [['áreas', ['Diseño de interfaces e interacción', 'Diseño audiovisual y multimedia', 'Proyectos que cruzan diseño y tecnología']]] },
+      '6a4f2d9': { kicker: 'educación', glyph: 'UX', meta: [['institución', 'Google'], ['modalidad', 'online']],
+        sections: [['contenidos', ['Investigación de usuarios', 'Wireframes y prototipos en Figma', 'Testeo de usabilidad']]] },
+      '1f08b3e': { kicker: 'educación', glyph: '&lt;/&gt;', meta: [['plataforma', 'Udemy'], ['foco', 'desarrollo fullstack']],
+        sections: [['contenidos', ['Frontend: HTML, CSS, JavaScript y React', 'Backend: Node.js y Express', 'Bases de datos: MongoDB']]] },
+      'c0d3e55': { kicker: 'educación', glyph: 'TOP', meta: [['plataforma', 'The Odin Project'], ['ruta', 'Full Stack JavaScript'], ['estado', 'en curso']],
+        sections: [['contenidos', ['Fundamentos de JavaScript', 'Testing', 'Node.js y bases de datos', 'Proyectos para el portfolio']]] }
+    };
+    var cases = {
+      '01': { objetivo: 'Replicar con fidelidad una interfaz compleja para practicar maquetado y estructura de componentes.', proceso: ['Análisis de la grilla y la jerarquía de la interfaz original', 'Maquetado semántico y layout con CSS Grid y Flexbox', 'Estados hover y navegación con JavaScript', 'Ajustes responsive para mobile y tablet'], aprendi: ['Organizar el CSS en bloques reutilizables', 'Trabajar sobre una referencia visual con precisión'] },
+      '02': { objetivo: 'Una herramienta para generar combinaciones de color rápidas para proyectos de diseño.', proceso: ['Generación aleatoria de colores en hexadecimal', 'Bloqueo de tonos entre generaciones', 'Copia del código al portapapeles con un clic'], aprendi: ['Manejo de estado sin frameworks', 'Eventos de teclado y portapapeles'] },
+      '03': { objetivo: 'Practicar lógica de programación y manejo del DOM con vanilla JS.', proceso: ['Teclado de la calculadora armado con CSS Grid', 'Lógica de operaciones encadenadas', 'Soporte para teclado físico'], aprendi: ['Separar lógica y presentación', 'Resolver casos borde: decimales y división por cero'] },
+      '04': { objetivo: 'Llevar una app web a un dispositivo móvil.', proceso: ['App de tareas con JavaScript y LocalStorage', 'Empaquetado como APK con Cordova', 'Notificaciones locales para recordatorios'], aprendi: ['El ciclo de build para Android', 'Usar plugins nativos desde JavaScript'] },
+      '05': { objetivo: 'Consumir datos reales de una API y mostrarlos de forma clara.', proceso: ['Búsqueda por ciudad', 'Peticiones con fetch y async/await', 'Manejo de errores y estados de carga'], aprendi: ['Trabajar con datos asíncronos', 'Diseñar estados vacíos y de error'] }
+    };
+    var jobs = exp.concat(edu);
+    exp = exp.map(function (c) { var k = jobs.indexOf(c); return Object.assign({}, c, { open: function () { self.openModal('job', k); } }); });
+    edu = edu.map(function (c) { var k = jobs.indexOf(c); return Object.assign({}, c, { open: function () { self.openModal('job', k); } }); });
+    var toItems = function (a) { return a.map(function (x) { return { t: x }; }); };
+    var m = null, md = st.modal;
+    if (md) {
+      var list = md.type === 'proj' ? prData : jobs;
+      var i0 = ((md.i % list.length) + list.length) % list.length;
+      var it = list[i0], nx = list[(i0 + 1) % list.length];
+      var anim = md.k % 2 ? 'popB' : 'popA';
+      if (md.type === 'proj') {
+        var cs = cases[it.n];
+        m = { isProj: true, anim: anim, file: 'proyectos/' + it.n + '_' + it.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.case', kicker: 'caso ' + it.n, date: '2023 → presente', title: it.name, glyph: it.glyph,
+          desc: it.desc + ' ' + cs.objetivo, code: it.code, nextTitle: nx.name,
+          meta: [{ k: 'tipo', v: 'proyecto personal' }, { k: 'stack', v: it.cats.join(' · ') }, { k: 'estado', v: 'terminado' }],
+          sections: [{ h: 'proceso', items: toItems(cs.proceso) }, { h: 'qué aprendí', items: toItems(cs.aprendi) }] };
+      } else {
+        var dt = details[it.hash];
+        m = { isProj: false, anim: anim, file: 'git show ' + it.hash, kicker: dt.kicker, date: it.date, title: it.title, glyph: dt.glyph.replace('&lt;', '<').replace('&gt;', '>'),
+          desc: it.body, code: '', nextTitle: nx.title,
+          meta: dt.meta.map(function (r) { return { k: r[0], v: r[1] }; }),
+          sections: dt.sections.map(function (s) { return { h: s[0], items: toItems(s[1]) }; }) };
+      }
+      m.idx = pad(i0 + 1); m.total = pad(list.length);
+    }
+
+    var colors = { cmd: '#ffffff', out: '#B5B5B5', ok: '#7BD88F', err: '#FF7A82' };
+    var history = st.history.map(function (h) { return { t: h.t, c: colors[h.k] || '#B5B5B5' }; });
+    var quick = ['help', 'whoami', 'email', 'stack', 'sudo contratar'].map(function (c) { return { c: c, run: function () { self.run(c); } }; });
+
+    return {
+      rootClass: 'gridbg ' + (broken ? 'broken' : 'intact') + (st.mounted ? ' js' : ''),
+      setRoot: function (el) { self.rootEl = el; },
+      setCursor: function (el) { self.curEl = el; },
+      setCoords: function (el) { self.coEl = el; },
+      setTerm: function (el) { self.termEl = el; },
+      brokenStr: broken ? 'true' : 'false',
+      btnLabel: broken ? 'restaurar_grilla()' : 'romper_grilla()',
+      btnBg: broken ? '#DF1F2B' : '#ffffff',
+      btnFg: broken ? '#ffffff' : '#141414',
+      toggleBreak: function () { self.setState({ broken: !self.state.broken }); },
+      clock: st.clock, role: st.role, uptime: up, scrollPct: st.scrollPct, secLabel: secLabel,
+      nav: nav, manWords: manWords, pillars: pillars, pillarWord: pData[st.pillar].word,
+      tools: tools, tool: tData[st.tool],
+      projects: projects, chips: chips, filter: st.filter, projCount: filt.length,
+      exp: exp, edu: edu,
+      modalOpen: !!m, m: m || { meta: [], sections: [] },
+      setClose: function (el) { self.closeEl = el; },
+      closeModal: function () { self.closeModal(); },
+      nextModal: function () { self.stepModal(1); },
+      prevModal: function () { self.stepModal(-1); },
+      modalKey: function (e) {
+        if (e.key === 'Escape') { e.stopPropagation(); self.closeModal(); }
+        else if (e.key === 'ArrowRight') self.stepModal(1);
+        else if (e.key === 'ArrowLeft') self.stepModal(-1);
+      },
+      history: history, quick: quick, cmd: st.cmd,
+      onCmd: function (e) { self.setState({ cmd: e.target.value }); },
+      onKey: function (e) { if (e.key === 'Enter') { e.preventDefault(); self.run(self.state.cmd); } }
+    };
+  }
+}
+</script>
+</body>
+</html>
