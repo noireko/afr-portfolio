@@ -890,9 +890,6 @@
                         <button type="button" class="casebtn" onClick="{{p.openCase}}" tabindex="{{p.tab}}"
                           style="font-family: 'Fira Code', monospace; font-size: 14px; min-height: 44px; padding: 0 18px; background: #141414; color: #ffffff; border: 1px solid #141414; cursor: pointer">abrir
                           caso [+]</button>
-                        <a href="{{p.href}}" tabindex="{{p.tab}}"
-                          style="font-size: 14px; color: #141414; text-decoration: underline; text-underline-offset: 4px">ver
-                          código ↗</a>
                       </div>
                     </div>
                   </div>
@@ -1098,9 +1095,17 @@
                     <span style="position: relative">{{m.glyph}}</span>
                   </div>
                   <sc-if value="{{m.isProj}}" hint-placeholder-val="{{ false }}">
-                    <div
-                      style="aspect-ratio: 16 / 9; border: 1px dashed #141414; background: repeating-linear-gradient(135deg, #F3F2EE 0 10px, #ffffff 10px 20px); display: flex; align-items: flex-end; padding: 10px; font-size: 11px; color: #5C5C5C">
-                      [CAPTURA DEL PROYECTO]</div>
+                    <sc-if value="{{m.hasImage}}" hint-placeholder-val="{{ false }}">
+                      <div style="aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #141414; background: #141414">
+                        <img src="{{m.image}}" alt="Captura de pantalla del proyecto" loading="lazy"
+                          style="width: 100%; height: 100%; display: block; object-fit: contain">
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{m.noImage}}" hint-placeholder-val="{{ false }}">
+                      <div
+                        style="aspect-ratio: 16 / 9; border: 1px dashed #141414; background: repeating-linear-gradient(135deg, #F3F2EE 0 10px, #ffffff 10px 20px); display: flex; align-items: flex-end; padding: 10px; font-size: 11px; color: #5C5C5C">
+                        [CAPTURA DEL PROYECTO]</div>
+                    </sc-if>
                   </sc-if>
                   <dl
                     style="margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font-size: 13px; border-top: 1px solid #141414; padding-top: 16px">
@@ -1137,10 +1142,13 @@
                   </sc-if>
                   <div
                     style="display: flex; flex-wrap: wrap; gap: 12px; border-top: 1px solid #141414; padding-top: 20px">
-                    <sc-if value="{{m.isProj}}" hint-placeholder-val="{{ false }}">
-                      <a href="#proyectos"
-                        style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; background: #141414; color: #ffffff; font-size: 14px">ver
-                        código ↗</a>
+                    <sc-if value="{{m.hasRepo}}" hint-placeholder-val="{{ false }}">
+                      <a href="{{m.repo}}" target="_blank" rel="noopener noreferrer" aria-label="Ver repositorio de {{m.title}} en GitHub (se abre en otra pestaña)"
+                        style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; background: #141414; color: #ffffff; font-size: 14px">ver repositorio ↗</a>
+                    </sc-if>
+                    <sc-if value="{{m.hasLive}}" hint-placeholder-val="{{ false }}">
+                      <a href="{{m.live}}" target="_blank" rel="noopener noreferrer" aria-label="Ver proyecto {{m.title}} (se abre en otra pestaña)"
+                        style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; background: #DF1F2B; color: #ffffff; font-size: 14px">ver proyecto ↗</a>
                     </sc-if>
                     <button type="button" onClick="{{nextModal}}" class="mbtn"
                       style="font-family: 'Fira Code', monospace; font-size: 14px; min-height: 48px; padding: 0 20px; background: #ffffff; color: #141414; border: 1px solid #141414; cursor: pointer">siguiente:
@@ -1340,11 +1348,11 @@ class Component extends DCLogic {
     });
 
     var prData = [
-      { n: '01', cats: ['HTML', 'CSS', 'JavaScript'], glyph: 'UI', name: 'Crunchyroll UI Clone', desc: 'Clon de la interfaz de la plataforma de streaming: grilla de contenidos, navegación y estados hover.', tags: 'HTML / CSS / JS', code: 'grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));' },
-      { n: '02', cats: ['JavaScript', 'DOM'], glyph: '#DF1F2B', name: 'Color Palette Generator', desc: 'Generador de paletas de color en JavaScript, con bloqueo de tonos y copia del código hex.', tags: 'JavaScript / DOM', code: "const hex = '#' + Math.floor(Math.random() * 0xffffff).toString(16);" },
-      { n: '03', cats: ['HTML', 'CSS', 'JavaScript', 'DOM'], glyph: '7+8=', name: 'Calculadora', desc: 'App web hecha con vanilla JS: operaciones encadenadas y teclado.', tags: 'HTML / CSS / JS', code: "keys.forEach(k => k.addEventListener('click', () => calc(k.dataset.op)));" },
-      { n: '04', cats: ['JavaScript', 'Cordova'], glyph: '[✓]', name: 'App de tareas', desc: 'Lista de tareas con notificaciones locales, empaquetada como APK con Cordova.', tags: 'JS / Cordova / APK', code: 'cordova.plugins.notification.local.schedule({ title: tarea.nombre });' },
-      { n: '05', cats: ['JavaScript', 'API REST'], glyph: '24°', name: 'App de clima', desc: 'Pronóstico del tiempo consumiendo una API externa, con búsqueda por ciudad.', tags: 'JS / API REST / fetch', code: 'const res = await fetch(API_URL + ciudad); const data = await res.json();' }
+      { n: '01', cats: ['HTML', 'CSS', 'JavaScript'], glyph: 'UI', name: 'Crunchyroll UI Clone', image: 'assets/crunchyroll.png', repo: 'https://github.com/noireko/crunchyroll-site-clone', live: 'https://noireko.github.io/crunchyroll-site-clone/', desc: 'Clon de la interfaz de la plataforma de streaming: grilla de contenidos, navegación y estados hover.', tags: 'HTML / CSS / JS', code: 'grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));' },
+      { n: '02', cats: ['JavaScript', 'DOM'], glyph: '#DF1F2B', name: 'Color Palette Generator', image: 'assets/colorpallete.png', repo: 'https://github.com/noireko/color-palette-site', live: 'https://noireko.github.io/color-palette-site/', desc: 'Generador de paletas de color en JavaScript, con bloqueo de tonos y copia del código hex.', tags: 'JavaScript / DOM', code: "const hex = '#' + Math.floor(Math.random() * 0xffffff).toString(16);" },
+      { n: '03', cats: ['HTML', 'CSS', 'JavaScript', 'DOM'], glyph: '7+8=', name: 'Calculadora', image: 'assets/calculadora.png', repo: 'https://github.com/noireko/calculadora', live: 'https://noireko.github.io/calculadora/', desc: 'App web hecha con vanilla JS: operaciones encadenadas y teclado.', tags: 'HTML / CSS / JS', code: "keys.forEach(k => k.addEventListener('click', () => calc(k.dataset.op)));" },
+      { n: '04', cats: ['JavaScript', 'Cordova'], glyph: '[✓]', name: 'App de tareas', image: 'assets/app-tareas.png', repo: 'https://github.com/noireko/to-do-list', live: 'https://noireko.github.io/to-do-list/', desc: 'Lista de tareas con notificaciones locales, empaquetada como APK con Cordova.', tags: 'JS / Cordova / APK', code: 'cordova.plugins.notification.local.schedule({ title: tarea.nombre });' },
+      { n: '05', cats: ['JavaScript', 'API REST'], glyph: '24°', name: 'App de clima', image: 'assets/app-clima.png', repo: 'https://github.com/noireko/weather-app', live: 'https://noireko.github.io/weather-app/', desc: 'Pronóstico del tiempo consumiendo una API externa, con búsqueda por ciudad.', tags: 'JS / API REST / fetch', code: 'const res = await fetch(API_URL + ciudad); const data = await res.json();' }
     ];
     var filt = prData.filter(function (p) { return st.filter === 'todos' || p.cats.indexOf(st.filter) >= 0; });
     var projects = filt.map(function (p, i) {
@@ -1420,7 +1428,7 @@ class Component extends DCLogic {
       var anim = md.k % 2 ? 'popB' : 'popA';
       if (md.type === 'proj') {
         var cs = cases[it.n];
-        m = { isProj: true, anim: anim, file: 'proyectos/' + it.n + '_' + it.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.case', kicker: 'caso ' + it.n, date: '2023 → presente', title: it.name, glyph: it.glyph,
+        m = { isProj: true, hasImage: !!it.image, noImage: !it.image, image: it.image || '', hasRepo: !!it.repo, repo: it.repo || '', hasLive: !!it.live, live: it.live || '', anim: anim, file: 'proyectos/' + it.n + '_' + it.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.case', kicker: 'caso ' + it.n, date: '2023 → presente', title: it.name, glyph: it.glyph,
           desc: it.desc + ' ' + cs.objetivo, code: it.code, nextTitle: nx.name,
           meta: [{ k: 'tipo', v: 'proyecto personal' }, { k: 'stack', v: it.cats.join(' · ') }, { k: 'estado', v: 'terminado' }],
           sections: [{ h: 'proceso', items: toItems(cs.proceso) }, { h: 'qué aprendí', items: toItems(cs.aprendi) }] };
