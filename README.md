@@ -1,4 +1,4 @@
-# Landing — Portfolio AFR — design reference
+# Landing  Portfolio AFR  design reference
 
 This is a design mockup created in a visual design tool, exported as a
 standalone page. Treat it as a REFERENCE MOCKUP, not production code:
